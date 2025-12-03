@@ -1,7 +1,7 @@
-package com.example.estoque.service;
+package com.estoque.service;
 
-import com.example.estoque.model.Unidade;
-import com.example.estoque.repository.UnidadeRepository;
+import com.estoque.model.Unidade;
+import com.estoque.repository.UnidadeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

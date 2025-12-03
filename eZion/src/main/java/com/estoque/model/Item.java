@@ -1,4 +1,4 @@
-package com.example.estoque.model;
+package com.estoque.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

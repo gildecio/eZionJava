@@ -1,7 +1,7 @@
-package com.example.estoque.controller;
+package com.estoque.controller;
 
-import com.example.estoque.model.Item;
-import com.example.estoque.service.ItemService;
+import com.estoque.model.Item;
+import com.estoque.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

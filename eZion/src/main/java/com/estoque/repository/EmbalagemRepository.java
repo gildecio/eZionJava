@@ -1,6 +1,6 @@
-package com.example.estoque.repository;
+package com.estoque.repository;
 
-import com.example.estoque.model.Embalagem;
+import com.estoque.model.Embalagem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

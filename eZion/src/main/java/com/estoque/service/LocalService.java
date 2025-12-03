@@ -1,7 +1,7 @@
-package com.example.estoque.service;
+package com.estoque.service;
 
-import com.example.estoque.model.Local;
-import com.example.estoque.repository.LocalRepository;
+import com.estoque.model.Local;
+import com.estoque.repository.LocalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

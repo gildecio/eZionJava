@@ -1,6 +1,6 @@
-package com.example.estoque.repository;
+package com.estoque.repository;
 
-import com.example.estoque.model.Local;
+import com.estoque.model.Local;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
