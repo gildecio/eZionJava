@@ -1,5 +1,4 @@
 package com.estoque.model;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,6 +15,27 @@ import java.util.Set;
 @Entity
 @Table(name = "item")
 public class Item {
+    public static enum TipoItem {
+        PRODUTO,
+        PRODUTO_SEMI_ELABORADO,
+        INSUMO,
+        IMOBILIZADO,
+        CONSUMO,
+        EMBALAGEM,
+        SERVICO
+    }
+
+    private TipoItem tipoItem;
+
+    public TipoItem getTipoItem() {
+        return tipoItem;
+    }
+
+    public void setTipoItem(TipoItem tipoItem) {
+        this.tipoItem = tipoItem;
+    }
+
+    // ...existing code...
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
