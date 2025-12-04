@@ -8,7 +8,6 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -43,8 +42,6 @@ public class Item {
 
     private String nome;
 
-    private BigDecimal saldo;
-
     @ManyToOne
     @JoinColumn(name = "embalagem_padrao_id")
     private Embalagem embalagemPadrao;
@@ -66,9 +63,8 @@ public class Item {
     // Constructors
     public Item() {}
 
-    public Item(String nome, BigDecimal saldo, Embalagem embalagemPadrao) {
+    public Item(String nome, Embalagem embalagemPadrao) {
         this.nome = nome;
-        this.saldo = saldo;
         this.embalagemPadrao = embalagemPadrao;
     }
 
@@ -87,14 +83,6 @@ public class Item {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public BigDecimal getSaldo() {
-        return saldo;
-    }
-
-    public void setSaldo(BigDecimal saldo) {
-        this.saldo = saldo;
     }
 
     public Embalagem getEmbalagemPadrao() {

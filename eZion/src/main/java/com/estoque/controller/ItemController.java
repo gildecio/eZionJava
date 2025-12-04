@@ -37,7 +37,7 @@ public class ItemController {
         return itemService.findById(id)
                 .map(item -> {
                     item.setNome(itemDetails.getNome());
-                    item.setSaldo(itemDetails.getSaldo());
+                    item.setTipoItem(itemDetails.getTipoItem());
                     item.setEmbalagemPadrao(itemDetails.getEmbalagemPadrao());
                     item.setEmbalagens(itemDetails.getEmbalagens());
                     item.setEntradaPadrao(itemDetails.getEntradaPadrao());
