@@ -1,5 +1,6 @@
 package com.estoque.model;
 
+import com.contabil.model.Empresa;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +21,10 @@ public class Embalagem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", nullable = false)
+    private Empresa empresa;
+
     private String nome;
 
     @ManyToOne
@@ -34,6 +39,13 @@ public class Embalagem {
     // Constructors
     public Embalagem() {}
 
+    public Embalagem(String nome, Unidade unidade, BigDecimal fator, Empresa empresa) {
+        this.nome = nome;
+        this.unidade = unidade;
+        this.fator = fator;
+        this.empresa = empresa;
+    }
+
     public Embalagem(String nome, Unidade unidade, BigDecimal fator) {
         this.nome = nome;
         this.unidade = unidade;
@@ -47,6 +59,14 @@ public class Embalagem {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
     }
 
     public String getNome() {

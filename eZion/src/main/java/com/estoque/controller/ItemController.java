@@ -38,6 +38,7 @@ public class ItemController {
                 .map(item -> {
                     item.setNome(itemDetails.getNome());
                     item.setTipoItem(itemDetails.getTipoItem());
+                    item.setGrupo(itemDetails.getGrupo());
                     item.setEmbalagemPadrao(itemDetails.getEmbalagemPadrao());
                     item.setEmbalagens(itemDetails.getEmbalagens());
                     item.setEntradaPadrao(itemDetails.getEntradaPadrao());

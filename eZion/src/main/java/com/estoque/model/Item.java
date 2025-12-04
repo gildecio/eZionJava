@@ -1,4 +1,6 @@
 package com.estoque.model;
+
+import com.contabil.model.Empresa;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -40,7 +42,15 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", nullable = false)
+    private Empresa empresa;
+
     private String nome;
+
+    @ManyToOne
+    @JoinColumn(name = "grupo_id")
+    private Grupo grupo;
 
     @ManyToOne
     @JoinColumn(name = "embalagem_padrao_id")
@@ -63,6 +73,12 @@ public class Item {
     // Constructors
     public Item() {}
 
+    public Item(String nome, Embalagem embalagemPadrao, Empresa empresa) {
+        this.nome = nome;
+        this.embalagemPadrao = embalagemPadrao;
+        this.empresa = empresa;
+    }
+
     public Item(String nome, Embalagem embalagemPadrao) {
         this.nome = nome;
         this.embalagemPadrao = embalagemPadrao;
@@ -77,12 +93,28 @@ public class Item {
         this.id = id;
     }
 
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
+    }
+
     public String getNome() {
         return nome;
     }
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public Grupo getGrupo() {
+        return grupo;
+    }
+
+    public void setGrupo(Grupo grupo) {
+        this.grupo = grupo;
     }
 
     public Embalagem getEmbalagemPadrao() {
