@@ -66,7 +66,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(authz -> authz
                 // Públicos - sem autenticação
                 .requestMatchers("/api/auth/login", "/api/auth/register", "/api/auth/refresh").permitAll()
-                .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/doc", "/doc/**").permitAll()
                 .requestMatchers("/actuator/health").permitAll()
                 
                 // Segurança - apenas admin

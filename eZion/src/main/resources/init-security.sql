@@ -58,13 +58,11 @@ INSERT INTO role_permissoes (role_id, permissao_id)
 -- 4. CRIAR USUÁRIO ADMIN
 -- ============================================
 
--- Nota: A senha é "admin123" codificada em BCrypt
--- Para gerar seu próprio BCrypt, use:
--- echo -n "sua_senha" | htpasswd -BC 10 /dev/stdin | grep -oP '(?<=\$)[^\$]+\$[^\$]+\$.*$'
--- Ou use um gerador online: https://bcrypt-generator.com
+-- Nota: A senha é "admin" codificada em BCrypt
+-- Hash: $2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86E36P4/F1.
 
 INSERT INTO usuarios (username, email, senha, nome_completo, ativo, bloqueado, criado_em, atualizado_em)
-VALUES ('admin', 'admin@example.com', '$2a$10$iYJ5HN0YjlhVBfj5UHqVL.8C8F0rAT8vW8ZmQVkJVqVlVGLnvLqNK', 'Administrador', true, false, NOW(), NOW());
+VALUES ('admin', 'admin@ezion.com', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86E36P4/F1.', 'Administrador', true, false, NOW(), NOW());
 
 -- ============================================
 -- 5. ASSOCIAR ADMIN AO USUÁRIO ADMIN
@@ -79,6 +77,6 @@ SELECT id, 1 FROM usuarios WHERE username = 'admin';
 
 -- Usuários de teste criados:
 -- - username: admin
--- - password: admin123
--- - email: admin@example.com
+-- - password: admin
+-- - email: admin@ezion.com
 -- - role: ADMIN (com todas as permissões)

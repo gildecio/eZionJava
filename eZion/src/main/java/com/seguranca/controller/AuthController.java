@@ -4,6 +4,12 @@ import com.seguranca.dto.*;
 import com.seguranca.model.Usuario;
 import com.seguranca.security.JwtProvider;
 import com.seguranca.service.UsuarioService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -18,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Tag(name = "Autenticação", description = "Endpoints de autenticação e autorização")
 @Slf4j
 @RestController
 @RequestMapping("/api/auth")
@@ -28,6 +35,15 @@ public class AuthController {
     private final JwtProvider jwtProvider;
     private final UsuarioService usuarioService;
 
+    @Operation(
+        summary = "Realizar login", 
+        description = "Autentica um usuário e retorna um token JWT",
+        security = {}
+    )
+    @ApiResponse(responseCode = "200", description = "Login bem-sucedido",
+            content = @Content(schema = @Schema(implementation = JwtResponse.class)))
+    @ApiResponse(responseCode = "401", description = "Credenciais inválidas")
+    @ApiResponse(responseCode = "400", description = "Requisição inválida")
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         try {
