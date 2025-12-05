@@ -1,0 +1,151 @@
+/* Cores principais */
+:host {
+  --cor-grafite: #2c3e50;
+  --cor-grafite-claro: #34495e;
+  --cor-branco: #ffffff;
+  --cor-cinza-claro: #ecf0f1;
+  --cor-cinza-medio: #bdc3c7;
+  --cor-texto: #2c3e50;
+  --cor-sombra: rgba(44, 62, 80, 0.1);
+  --cor-destaque: #3498db;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--cor-cinza-claro);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--cor-texto);
+}
+
+/* ===== HEADER FIXO ===== */
+.header {
+  background: linear-gradient(135deg, var(--cor-grafite) 0%, var(--cor-grafite-claro) 100%);
+  color: var(--cor-branco);
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 8px var(--cor-sombra);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.logo h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.username {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.logout-btn {
+  background-color: var(--cor-branco);
+  color: var(--cor-grafite);
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.logout-btn:hover {
+  background-color: var(--cor-cinza-claro);
+  box-shadow: 0 2px 6px var(--cor-sombra);
+  transform: translateY(-2px);
+}
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 768px) {
+  .header {
+    padding: 0.8rem 1rem;
+  }
+
+  .header-content {
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  .logo h1 {
+    font-size: 1.5rem;
+  }
+
+  .user-info {
+    gap: 1rem;
+  }
+
+  .username {
+    font-size: 0.85rem;
+  }
+
+  .logout-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .main-content {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 0.6rem 0.8rem;
+  }
+
+  .logo h1 {
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+  }
+
+  .username {
+    font-size: 0.75rem;
+  }
+
+  .logout-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.75rem;
+  }
+
+  .main-content {
+    padding: 0.8rem;
+  }
+}

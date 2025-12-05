@@ -61,7 +61,7 @@ export class Login {
         next: () => {
           this.successMessage = 'Login realizado com sucesso! Redirecionando...';
           setTimeout(() => {
-            this.router.navigate(['/dashboard']);
+            this.router.navigate(['/index']);
           }, 1500);
         },
         error: (err: any) => {

@@ -19,11 +19,17 @@ interface LoginResponse {
 })
 export class AuthService {
   private apiUrl = `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.auth}`;
-  private currentUserSubject = new BehaviorSubject<any>(this.getUserFromStorage());
+  private currentUserSubject = new BehaviorSubject<any>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
   private tokenKey = 'auth_token';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    // Inicializar com dados do localStorage se existirem
+    const user = this.getUserFromStorage();
+    if (user) {
+      this.currentUserSubject.next(user);
+    }
+  }
 
   login(usuario: string, senha: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { usuario, senha })
@@ -53,12 +59,33 @@ export class AuthService {
     return localStorage.getItem(this.tokenKey);
   }
 
+  getUsuario(): string {
+    const usuario = localStorage.getItem('usuario');
+    if (usuario) {
+      try {
+        const usuarioObj = JSON.parse(usuario);
+        return usuarioObj.username || usuarioObj.usuario || 'Usuário';
+      } catch (e) {
+        console.warn('Erro ao fazer parse do usuário:', e);
+        return 'Usuário';
+      }
+    }
+    return 'Usuário';
+  }
+
   isAuthenticated(): boolean {
     return !!this.getToken();
   }
 
   private getUserFromStorage(): any {
-    const usuario = localStorage.getItem('usuario');
-    return usuario ? JSON.parse(usuario) : null;
+    try {
+      const usuario = localStorage.getItem('usuario');
+      if (usuario) {
+        return JSON.parse(usuario);
+      }
+    } catch (e) {
+      console.warn('Erro ao carregar usuário do storage:', e);
+    }
+    return null;
   }
 }

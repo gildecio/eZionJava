@@ -1,0 +1,19 @@
+<div class="layout-container">
+  <!-- Header Fixo -->
+  <header class="header">
+    <div class="header-content">
+      <div class="logo">
+        <h1>eZion</h1>
+      </div>
+      <div class="user-info">
+        <span class="username">{{ usuarioLogado }}</span>
+        <button class="logout-btn" (click)="logout()">Sair</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Conteúdo da Página -->
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>
