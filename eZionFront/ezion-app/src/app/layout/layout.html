@@ -5,9 +5,39 @@
       <div class="logo">
         <h1>eZion</h1>
       </div>
-      <div class="user-info">
-        <span class="username">{{ usuarioLogado }}</span>
-        <button class="logout-btn" (click)="logout()">Sair</button>
+
+      <!-- Menu Principal -->
+      <nav class="navbar">
+        <ul class="nav-menu">
+          <li class="nav-item">
+            <a href="#" class="nav-link">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">Estoque</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">Relatórios</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">Configurações</a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- User Dropdown -->
+      <div class="user-dropdown">
+        <button class="user-btn" (click)="toggleDropdown()">
+          <span class="username">{{ usuarioLogado }}</span>
+          <svg class="dropdown-arrow" [class.open]="dropdownAberto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <div class="dropdown-menu" [class.active]="dropdownAberto">
+          <a href="#" class="dropdown-item">Perfil</a>
+          <a href="#" class="dropdown-item">Configurações</a>
+          <hr class="dropdown-divider">
+          <button class="dropdown-item logout-item" (click)="logout()">Sair</button>
+        </div>
       </div>
     </div>
   </header>
@@ -17,3 +47,4 @@
     <router-outlet></router-outlet>
   </main>
 </div>
+

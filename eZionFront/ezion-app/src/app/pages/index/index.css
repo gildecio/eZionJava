@@ -2,11 +2,12 @@
 :host {
   --cor-grafite: #2c3e50;
   --cor-grafite-claro: #34495e;
+  --cor-grafite-escuro: #1a252f;
   --cor-branco: #ffffff;
   --cor-cinza-claro: #ecf0f1;
   --cor-cinza-medio: #bdc3c7;
   --cor-texto: #2c3e50;
-  --cor-sombra: rgba(44, 62, 80, 0.1);
+  --cor-sombra: rgba(0, 0, 0, 0.2);
   --cor-destaque: #3498db;
 }
 
@@ -19,7 +20,7 @@
 /* ===== SIDEBAR ===== */
 .sidebar {
   width: 250px;
-  background-color: var(--cor-branco);
+  background-color: rgba(255, 255, 255, 0.95);
   border-radius: 8px;
   padding: 1.5rem 0;
   box-shadow: 0 2px 8px var(--cor-sombra);
@@ -76,7 +77,7 @@
 }
 
 .welcome-section {
-  background-color: var(--cor-branco);
+  background-color: rgba(255, 255, 255, 0.95);
   padding: 3rem;
   border-radius: 8px;
   box-shadow: 0 2px 8px var(--cor-sombra);

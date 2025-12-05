@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, Router } from '@angular/router';
 import { AuthService } from '../services/auth';
@@ -12,12 +12,32 @@ import { AuthService } from '../services/auth';
 })
 export class Layout {
   usuarioLogado: string = '';
+  dropdownAberto = false;
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private elementRef: ElementRef
   ) {
     this.usuarioLogado = this.authService.getUsuario();
+  }
+
+  toggleDropdown() {
+    this.dropdownAberto = !this.dropdownAberto;
+  }
+
+  fecharDropdown() {
+    this.dropdownAberto = false;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    const userDropdown = this.elementRef.nativeElement.querySelector('.user-dropdown');
+    
+    if (userDropdown && !userDropdown.contains(target)) {
+      this.fecharDropdown();
+    }
   }
 
   logout() {
