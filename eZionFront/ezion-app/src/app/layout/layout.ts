@@ -1,4 +1,4 @@
-import { Component, HostListener, ElementRef } from '@angular/core';
+import { Component, ElementRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, Router } from '@angular/router';
 import { AuthService } from '../services/auth';
@@ -13,6 +13,7 @@ import { AuthService } from '../services/auth';
 export class Layout {
   usuarioLogado: string = '';
   dropdownAberto = false;
+  contabilAberto = false;
 
   constructor(
     private authService: AuthService,
@@ -30,12 +31,14 @@ export class Layout {
     this.dropdownAberto = false;
   }
 
+  toggleContabilSubmenu() {
+    this.contabilAberto = !this.contabilAberto;
+  }
+
   @HostListener('document:click', ['$event'])
-  onClickOutside(event: MouseEvent) {
+  onDocumentClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
-    const userDropdown = this.elementRef.nativeElement.querySelector('.user-dropdown');
-    
-    if (userDropdown && !userDropdown.contains(target)) {
+    if (!this.elementRef.nativeElement.contains(target)) {
       this.fecharDropdown();
     }
   }
