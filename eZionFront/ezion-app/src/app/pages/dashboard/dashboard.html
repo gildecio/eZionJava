@@ -1,0 +1,39 @@
+<div class="dashboard">
+  <header class="header">
+    <div class="header-content">
+      <h1>eZion Dashboard</h1>
+      <div class="user-info">
+        <span *ngIf="usuario">Bem-vindo, {{ usuario.nome }}</span>
+        <button class="btn-logout" (click)="logout()">Sair</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="welcome-card">
+      <h2>Bem-vindo ao eZion</h2>
+      <p>Sistema integrado de gestão empresarial</p>
+      <p class="status">✅ Você está autenticado no sistema</p>
+    </div>
+
+    <div class="cards-container">
+      <div class="card">
+        <h3>Segurança</h3>
+        <p>Gerenciar usuários, roles e permissões</p>
+        <button class="btn-card">Acessar</button>
+      </div>
+
+      <div class="card">
+        <h3>Empresas</h3>
+        <p>Cadastro e gerenciamento de empresas</p>
+        <button class="btn-card">Acessar</button>
+      </div>
+
+      <div class="card">
+        <h3>Configurações</h3>
+        <p>Preferências e configurações do sistema</p>
+        <button class="btn-card">Acessar</button>
+      </div>
+    </div>
+  </main>
+</div>

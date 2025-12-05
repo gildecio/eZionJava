@@ -1,0 +1,122 @@
+<div class="login-container">
+  <!-- Coluna Esquerda - Branding -->
+  <div class="login-left">
+    <div class="branding">
+      <div class="logo-circle">
+        <h1>eZion</h1>
+      </div>
+      <h2>Sistema de Gestão Empresarial</h2>
+      <p>Integrado e eficiente</p>
+      <div class="features">
+        <div class="feature-item">
+          <span class="icon">✓</span>
+          <span>Fácil de usar</span>
+        </div>
+        <div class="feature-item">
+          <span class="icon">✓</span>
+          <span>Seguro e confiável</span>
+        </div>
+        <div class="feature-item">
+          <span class="icon">✓</span>
+          <span>Alto desempenho</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Coluna Direita - Formulário -->
+  <div class="login-right">
+    <div class="login-box">
+      <h3>Bem-vindo</h3>
+      <p class="subtitle">Faça login em sua conta</p>
+      
+      <!-- Alerta de Erro Global -->
+      <div *ngIf="error" class="alert alert-danger" [@slideIn]>
+        <div class="error-header">
+          <span class="error-icon">⚠️</span>
+          <span class="error-title">Erro ao fazer login</span>
+          <button type="button" class="close-btn" (click)="error = ''" aria-label="Fechar">×</button>
+        </div>
+        <div class="error-message">{{ error }}</div>
+      </div>
+
+      <!-- Alerta de Sucesso (temporário) -->
+      <div *ngIf="successMessage" class="alert alert-success" [@slideIn]>
+        <div class="success-header">
+          <span class="success-icon">✓</span>
+          <span class="success-title">{{ successMessage }}</span>
+        </div>
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="usuario">Usuário</label>
+          <div class="input-wrapper">
+            <input
+              type="text"
+              id="usuario"
+              formControlName="usuario"
+              class="form-control"
+              placeholder="Digite seu usuário"
+              [class.is-invalid]="submitted && f['usuario'].errors"
+              [class.has-error]="submitted && f['usuario'].errors"
+              (focus)="error = ''"
+            />
+            <span class="input-icon" *ngIf="submitted && f['usuario'].errors">!</span>
+          </div>
+          <div *ngIf="submitted && f['usuario'].errors" class="invalid-feedback" [@slideIn]>
+            <div *ngIf="f['usuario'].errors['required']">
+              <span class="error-dot">●</span>
+              Usuário é obrigatório
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="senha">Senha</label>
+          <div class="input-wrapper">
+            <input
+              type="password"
+              id="senha"
+              formControlName="senha"
+              class="form-control"
+              placeholder="Digite sua senha"
+              [class.is-invalid]="submitted && f['senha'].errors"
+              [class.has-error]="submitted && f['senha'].errors"
+              (focus)="error = ''"
+            />
+            <span class="input-icon" *ngIf="submitted && f['senha'].errors">!</span>
+          </div>
+          <div *ngIf="submitted && f['senha'].errors" class="invalid-feedback" [@slideIn]>
+            <div *ngIf="f['senha'].errors['required']">
+              <span class="error-dot">●</span>
+              Senha é obrigatória
+            </div>
+            <div *ngIf="f['senha'].errors['minlength']">
+              <span class="error-dot">●</span>
+              Senha deve ter no mínimo 6 caracteres
+            </div>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="loading"
+        >
+          <span *ngIf="loading" class="spinner"></span>
+          {{ loading ? 'Conectando...' : 'Entrar' }}
+        </button>
+      </form>
+
+      <!-- Dica de Ajuda -->
+      <div class="help-text">
+        <p>Credenciais padrão:</p>
+        <p class="credentials">
+          <span>Usuário:</span> admin@ezion.com<br>
+          <span>Senha:</span> admin123456
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
