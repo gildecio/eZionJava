@@ -3,7 +3,7 @@
     <h1 class="form-title">{{ editandoId ? 'Editar Empresa' : 'Nova Empresa' }}</h1>
   </div>
 
-  <form (ngSubmit)="salvar()" #form="ngForm" class="empresas-form">
+  <form [formGroup]="form" (ngSubmit)="salvar()" class="empresas-form">
     <!-- Abas de formulário -->
     <div class="form-tabs">
       <button type="button" class="tab-btn active" data-tab="dados-basicos" (click)="mudarAba('dados-basicos')">Dados Básicos</button>
@@ -14,62 +14,74 @@
 
     <!-- Tab: Dados Básicos -->
     <div class="tab-content active" data-tab="dados-basicos">
-      <div class="form-group">
+      <div class="form-group" [class.has-error]="temErro('razaoSocial')">
         <label for="razaoSocial">Razão Social *</label>
         <input
           type="text"
           id="razaoSocial"
-          name="razaoSocial"
-          [(ngModel)]="empresaForm.razaoSocial"
-          required
+          formControlName="razaoSocial"
           class="form-input"
           placeholder="Ex: Empresa LTDA"
+          (blur)="form.get('razaoSocial')?.markAsTouched()"
         />
+        <span class="error-message" *ngIf="temErro('razaoSocial')">
+          {{ obterMensagemErro('razaoSocial') }}
+        </span>
       </div>
-      <div class="form-group">
+
+      <div class="form-group" [class.has-error]="temErro('nomeFantasia')">
         <label for="nomeFantasia">Nome Fantasia *</label>
         <input
           type="text"
           id="nomeFantasia"
-          name="nomeFantasia"
-          [(ngModel)]="empresaForm.nomeFantasia"
-          required
+          formControlName="nomeFantasia"
           class="form-input"
           placeholder="Ex: Minha Empresa"
+          (blur)="form.get('nomeFantasia')?.markAsTouched()"
         />
+        <span class="error-message" *ngIf="temErro('nomeFantasia')">
+          {{ obterMensagemErro('nomeFantasia') }}
+        </span>
       </div>
+
       <div class="form-row">
-        <div class="form-group">
+        <div class="form-group" [class.has-error]="temErro('cnpj')">
           <label for="cnpj">CNPJ *</label>
           <input
             type="text"
             id="cnpj"
-            name="cnpj"
-            [(ngModel)]="empresaForm.cnpj"
-            required
+            formControlName="cnpj"
             class="form-input"
             placeholder="00.000.000/0000-00"
+            (blur)="form.get('cnpj')?.markAsTouched()"
           />
+          <span class="error-message" *ngIf="temErro('cnpj')">
+            {{ obterMensagemErro('cnpj') }}
+          </span>
         </div>
-        <div class="form-group">
+
+        <div class="form-group" [class.has-error]="temErro('email')">
           <label for="email">Email</label>
           <input
             type="email"
             id="email"
-            name="email"
-            [(ngModel)]="empresaForm.email"
+            formControlName="email"
             class="form-input"
             placeholder="contato@empresa.com"
+            (blur)="form.get('email')?.markAsTouched()"
           />
+          <span class="error-message" *ngIf="temErro('email')">
+            {{ obterMensagemErro('email') }}
+          </span>
         </div>
       </div>
+
       <div class="form-group">
         <label for="telefone">Telefone</label>
         <input
           type="tel"
           id="telefone"
-          name="telefone"
-          [(ngModel)]="empresaForm.telefone"
+          formControlName="telefone"
           class="form-input"
           placeholder="(11) 99999-9999"
         />
@@ -83,20 +95,19 @@
         <input
           type="text"
           id="logradouro"
-          name="logradouro"
-          [(ngModel)]="empresaForm.logradouro"
+          formControlName="logradouro"
           class="form-input"
           placeholder="Ex: Rua das Flores"
         />
       </div>
+
       <div class="form-row">
         <div class="form-group">
           <label for="numero">Número</label>
           <input
             type="text"
             id="numero"
-            name="numero"
-            [(ngModel)]="empresaForm.numero"
+            formControlName="numero"
             class="form-input"
             placeholder="123"
           />
@@ -106,21 +117,20 @@
           <input
             type="text"
             id="complemento"
-            name="complemento"
-            [(ngModel)]="empresaForm.complemento"
+            formControlName="complemento"
             class="form-input"
             placeholder="Apto 45"
           />
         </div>
       </div>
+
       <div class="form-row">
         <div class="form-group">
           <label for="bairro">Bairro</label>
           <input
             type="text"
             id="bairro"
-            name="bairro"
-            [(ngModel)]="empresaForm.bairro"
+            formControlName="bairro"
             class="form-input"
             placeholder="Centro"
           />
@@ -130,20 +140,19 @@
           <input
             type="text"
             id="cidade"
-            name="cidade"
-            [(ngModel)]="empresaForm.cidade"
+            formControlName="cidade"
             class="form-input"
             placeholder="São Paulo"
           />
         </div>
       </div>
+
       <div class="form-row">
         <div class="form-group">
           <label for="estado">Estado</label>
           <select
             id="estado"
-            name="estado"
-            [(ngModel)]="empresaForm.estado"
+            formControlName="estado"
             class="form-input"
           >
             <option value="">Selecione</option>
@@ -155,8 +164,7 @@
           <input
             type="text"
             id="cep"
-            name="cep"
-            [(ngModel)]="empresaForm.cep"
+            formControlName="cep"
             class="form-input"
             placeholder="12345-678"
           />
@@ -172,8 +180,7 @@
           <input
             type="text"
             id="inscricaoEstadual"
-            name="inscricaoEstadual"
-            [(ngModel)]="empresaForm.inscricaoEstadual"
+            formControlName="inscricaoEstadual"
             class="form-input"
           />
         </div>
@@ -182,19 +189,18 @@
           <input
             type="text"
             id="inscricaoMunicipal"
-            name="inscricaoMunicipal"
-            [(ngModel)]="empresaForm.inscricaoMunicipal"
+            formControlName="inscricaoMunicipal"
             class="form-input"
           />
         </div>
       </div>
+
       <div class="form-row">
         <div class="form-group">
           <label for="regimeEscal">Regime Fiscal</label>
           <select
             id="regimeEscal"
-            name="regimeEscal"
-            [(ngModel)]="empresaForm.regimeEscal"
+            formControlName="regimeEscal"
             class="form-input"
           >
             <option *ngFor="let regime of regimes" [value]="regime">{{ regime }}</option>
@@ -204,21 +210,20 @@
           <label for="tipoContribuinte">Tipo Contribuinte</label>
           <select
             id="tipoContribuinte"
-            name="tipoContribuinte"
-            [(ngModel)]="empresaForm.tipoContribuinte"
+            formControlName="tipoContribuinte"
             class="form-input"
           >
             <option *ngFor="let tipo of tiposContribuinte" [value]="tipo">{{ tipo }}</option>
           </select>
         </div>
       </div>
+
       <div class="form-group">
         <label for="faturamentoAnual">Faturamento Anual (R$)</label>
         <input
           type="number"
           id="faturamentoAnual"
-          name="faturamentoAnual"
-          [(ngModel)]="empresaForm.faturamentoAnual"
+          formControlName="faturamentoAnual"
           class="form-input"
           min="0"
           step="0.01"
@@ -233,20 +238,19 @@
         <input
           type="text"
           id="responsavelNome"
-          name="responsavelNome"
-          [(ngModel)]="empresaForm.responsavelNome"
+          formControlName="responsavelNome"
           class="form-input"
           placeholder="Seu Nome"
         />
       </div>
+
       <div class="form-row">
         <div class="form-group">
           <label for="responsavelCPF">CPF</label>
           <input
             type="text"
             id="responsavelCPF"
-            name="responsavelCPF"
-            [(ngModel)]="empresaForm.responsavelCPF"
+            formControlName="responsavelCPF"
             class="form-input"
             placeholder="000.000.000-00"
           />
@@ -256,20 +260,19 @@
           <input
             type="email"
             id="responsavelEmail"
-            name="responsavelEmail"
-            [(ngModel)]="empresaForm.responsavelEmail"
+            formControlName="responsavelEmail"
             class="form-input"
             placeholder="seu@email.com"
           />
         </div>
       </div>
+
       <div class="form-group">
         <label for="responsavelTelefone">Telefone</label>
         <input
           type="tel"
           id="responsavelTelefone"
-          name="responsavelTelefone"
-          [(ngModel)]="empresaForm.responsavelTelefone"
+          formControlName="responsavelTelefone"
           class="form-input"
           placeholder="(11) 99999-9999"
         />
