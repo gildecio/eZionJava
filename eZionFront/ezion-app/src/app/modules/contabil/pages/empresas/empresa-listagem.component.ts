@@ -91,9 +91,11 @@ export class EmpresaListagemComponent implements OnInit {
     this.empresaService.ativar(id).subscribe({
       next: () => {
         const empresa = this.empresas.find(e => e.id === id);
-        if (empresa) empresa.ativa = true;
-        this.salvarEmpresasNoLocalStorage();
-        this.carregarEmpresas();
+        if (empresa) {
+          empresa.ativa = true;
+          this.salvarEmpresasNoLocalStorage();
+          this.atualizarVisualizacaoFiltrada();
+        }
       },
       error: (erro) => console.error('Erro ao ativar:', erro)
     });
@@ -104,9 +106,11 @@ export class EmpresaListagemComponent implements OnInit {
       this.empresaService.desativar(id).subscribe({
         next: () => {
           const empresa = this.empresas.find(e => e.id === id);
-          if (empresa) empresa.ativa = false;
-          this.salvarEmpresasNoLocalStorage();
-          this.carregarEmpresas();
+          if (empresa) {
+            empresa.ativa = false;
+            this.salvarEmpresasNoLocalStorage();
+            this.atualizarVisualizacaoFiltrada();
+          }
         },
         error: (erro) => console.error('Erro ao desativar:', erro)
       });
@@ -122,6 +126,19 @@ export class EmpresaListagemComponent implements OnInit {
         error: (erro) => console.warn('Erro ao deletar na API:', erro),
         complete: () => this.salvarEmpresasNoLocalStorage()
       });
+    }
+  }
+
+  private atualizarVisualizacaoFiltrada() {
+    // Re-aplica o filtro sem fazer chamada à API
+    const todas = [...this.empresas];
+    
+    if (this.filtroAtivas === 'ativas') {
+      this.empresas = todas.filter((e: Empresa) => e.ativa);
+    } else if (this.filtroAtivas === 'inativas') {
+      this.empresas = todas.filter((e: Empresa) => !e.ativa);
+    } else {
+      this.empresas = todas;
     }
   }
 
