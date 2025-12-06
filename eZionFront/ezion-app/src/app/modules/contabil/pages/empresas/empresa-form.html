@@ -1,6 +1,10 @@
 <div class="empresas-container form-page">
   <div class="form-header">
-    <h1 class="form-title">{{ editandoId ? 'Editar Empresa' : 'Nova Empresa' }}</h1>
+    <h1 class="form-title">
+      <span *ngIf="somenteLeitura">Visualizar Empresa</span>
+      <span *ngIf="!somenteLeitura && editandoId">Editar Empresa</span>
+      <span *ngIf="!somenteLeitura && !editandoId">Nova Empresa</span>
+    </h1>
   </div>
 
   <form [formGroup]="form" (ngSubmit)="salvar()" class="empresas-form">
@@ -51,6 +55,7 @@
             type="text"
             id="cnpj"
             formControlName="cnpj"
+            appCnpjMask
             class="form-input"
             placeholder="00.000.000/0000-00"
             (blur)="form.get('cnpj')?.markAsTouched()"
@@ -73,6 +78,18 @@
           <span class="error-message" *ngIf="temErro('email')">
             {{ obterMensagemErro('email') }}
           </span>
+        </div>
+
+        <div class="form-group">
+          <label for="status">Status</label>
+          <select
+            id="status"
+            formControlName="ativa"
+            class="form-input"
+          >
+            <option [ngValue]="true">Ativa</option>
+            <option [ngValue]="false">Inativa</option>
+          </select>
         </div>
       </div>
 
@@ -280,8 +297,10 @@
     </div>
 
     <div class="form-actions">
-      <button type="button" class="btn-secondary" (click)="cancelar()">Cancelar</button>
-      <button type="submit" class="btn-primary" [disabled]="!form.valid || enviando">
+      <button type="button" class="btn-secondary" (click)="cancelar()">
+        {{ somenteLeitura ? 'Voltar' : 'Cancelar' }}
+      </button>
+      <button type="submit" class="btn-primary" [disabled]="!form.valid || enviando" *ngIf="!somenteLeitura">
         {{ enviando ? 'Salvando...' : 'Salvar' }}
       </button>
     </div>

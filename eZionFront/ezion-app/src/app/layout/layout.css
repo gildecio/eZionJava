@@ -121,7 +121,7 @@
 }
 
 /* Dropdown de Usuário */
-.user-dropdown {
+.user-menu-wrapper {
   position: relative;
 }
 
@@ -143,18 +143,6 @@
   border-color: rgba(255, 255, 255, 0.4);
 }
 
-.user-avatar {
-  width: 32px;
-  height: 32px;
-  background: var(--accent);
-  border-radius: var(--radius-full);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-base);
-}
-
 .username {
   max-width: 100px;
   overflow: hidden;
@@ -162,81 +150,46 @@
   white-space: nowrap;
 }
 
-.dropdown-arrow {
-  width: 16px;
-  height: 16px;
-  transition: transform var(--transition-base);
-  flex-shrink: 0;
-}
-
-.dropdown-arrow.open {
-  transform: rotate(180deg);
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
+/* Personalização do Menu PrimeNG */
+::ng-deep .p-menu {
   background: var(--white);
+  border: 1px solid var(--gray-200);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
-  min-width: 240px;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-10px);
-  transition: all var(--transition-base);
-  overflow: hidden;
 }
 
-.dropdown-menu.active {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
+::ng-deep .p-menu .p-menuitem {
+  margin: 0;
 }
 
-.dropdown-item {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-md);
-  width: 100%;
+::ng-deep .p-menu .p-menuitem > .p-menuitem-content {
   padding: var(--spacing-md) var(--spacing-lg);
-  background: none;
-  color: var(--gray-700);
-  text-align: left;
-  font-size: var(--font-size-sm);
-  transition: all var(--transition-base);
-  border: none;
   border-radius: 0;
 }
 
-.dropdown-item svg {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
-  opacity: 0.6;
-}
-
-.dropdown-item:hover {
+::ng-deep .p-menu .p-menuitem:hover > .p-menuitem-content {
   background-color: var(--gray-100);
   color: var(--accent);
 }
 
-.dropdown-item:hover svg {
-  opacity: 1;
+::ng-deep .p-menu .p-menuitem .p-menuitem-text {
+  font-size: var(--font-size-sm);
 }
 
-.logout-item {
+::ng-deep .p-menu .p-menuitem .p-icon {
+  width: 18px;
+  height: 18px;
+  margin-right: var(--spacing-md);
+}
+
+/* Menu item danger para Sair */
+::ng-deep .p-menu .p-menuitem.p-menuitem-danger > .p-menuitem-content {
   color: var(--danger);
 }
 
-.logout-item:hover {
+::ng-deep .p-menu .p-menuitem.p-menuitem-danger:hover > .p-menuitem-content {
   background-color: rgba(231, 76, 60, 0.1);
-}
-
-.dropdown-divider {
-  border: none;
-  border-top: 1px solid var(--gray-200);
-  margin: var(--spacing-sm) 0;
+  color: var(--danger);
 }
 
 /* ========== SIDEBAR ==========*/

@@ -3,17 +3,19 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { EmpresaService, Empresa } from '../../services/empresa.service';
 import { cnpjValidator } from '../../../../shared/validators';
+import { CnpjMaskDirective } from '../../../../shared/directives/cnpj-mask.directive';
 
 @Component({
   selector: 'app-empresa-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, CnpjMaskDirective],
   templateUrl: './empresa-form.html',
   styleUrl: './empresas.css'
 })
 export class EmpresaFormComponent implements OnInit {
   @Input() empresa?: Empresa;
-  @Output() salvo = new EventEmitter<void>();
+  @Input() somenteLeitura: boolean = false;
+  @Output() salvo = new EventEmitter<Empresa>();
   @Output() cancelado = new EventEmitter<void>();
 
   form: FormGroup;
@@ -38,6 +40,11 @@ export class EmpresaFormComponent implements OnInit {
     if (this.empresa) {
       this.editandoId = this.empresa.id || null;
       this.form.patchValue(this.empresa);
+    }
+    
+    // Se for somente leitura, desabilita todos os campos
+    if (this.somenteLeitura) {
+      this.form.disable();
     }
   }
 
@@ -128,61 +135,56 @@ export class EmpresaFormComponent implements OnInit {
 
     this.enviando = true;
     const formData = this.form.getRawValue();
+    
+    console.log('Dados enviados:', formData);
+    console.log('Status (ativa):', formData.ativa, 'Tipo:', typeof formData.ativa);
 
     if (this.editandoId) {
       // Editar empresa existente
       this.empresaService.atualizar(this.editandoId, formData).subscribe({
-        next: () => console.log('Empresa atualizada na API'),
-        error: (erro) => console.warn('Erro ao atualizar na API:', erro),
-        complete: () => {
-          this.atualizarLocalStorage(formData);
+        next: (empresaAtualizada) => {
+          console.log('Empresa atualizada na API');
+          if (empresaAtualizada && empresaAtualizada.id) {
+            
+            this.enviando = false;
+            this.salvo.emit(empresaAtualizada);
+          }
+        },
+        error: (erro) => {
+          console.warn('Erro ao atualizar na API:', erro);
+          const empresaLocal = { ...formData, id: this.editandoId } as Empresa;
+          
           this.enviando = false;
-          this.salvo.emit();
+          this.salvo.emit(empresaLocal);
         }
       });
     } else {
       // Criar nova empresa
-      const novaEmpresa: Empresa = {
-        ...formData,
-        id: this.nextId++,
-        dataCriacao: new Date().toISOString()
-      };
-
       this.empresaService.criar(formData).subscribe({
         next: (empresa) => {
+          console.log('Empresa criada na API');
           if (empresa && empresa.id) {
             this.nextId = (empresa.id || 0) + 1;
+            
+            this.salvo.emit(empresa);
           }
-          console.log('Empresa criada na API');
         },
         error: (erro) => {
           console.warn('Erro ao criar na API:', erro);
-        },
-        complete: () => {
-          this.atualizarLocalStorage(novaEmpresa);
+          const novaEmpresa: Empresa = {
+            ...formData,
+            id: this.nextId++,
+            dataCriacao: new Date().toISOString()
+          };
+          
           this.enviando = false;
-          this.salvo.emit();
+          this.salvo.emit(novaEmpresa);
         }
       });
     }
   }
 
-  atualizarLocalStorage(empresa: Empresa) {
-    const empresasLocal = localStorage.getItem('empresas') || '[]';
-    let empresas = JSON.parse(empresasLocal);
-
-    if (this.editandoId) {
-      const index = empresas.findIndex((e: Empresa) => e.id === this.editandoId);
-      if (index !== -1) {
-        empresas[index] = { ...empresa, id: this.editandoId };
-      }
-    } else {
-      empresas.push(empresa);
-    }
-
-    localStorage.setItem('empresas', JSON.stringify(empresas));
-  }
-
+  
   cancelar() {
     this.cancelado.emit();
   }

@@ -1,19 +1,35 @@
-import { Component, ElementRef, HostListener } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../services/auth';
+import { ButtonModule } from 'primeng/button';
+import { AvatarModule } from 'primeng/avatar';
+import { BadgeModule } from 'primeng/badge';
+import { MenuModule, Menu } from 'primeng/menu';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
+    ButtonModule,
+    AvatarModule,
+    BadgeModule,
+    MenuModule
+  ],
   templateUrl: './layout.html',
   styleUrl: './layout.css'
 })
 export class Layout {
+  @ViewChild('userMenu') userMenu!: Menu;
+
   usuarioLogado: string = '';
-  dropdownAberto = false;
   contabilAberto = false;
+  userMenuItems: MenuItem[] = [];
 
   constructor(
     private authService: AuthService,
@@ -21,26 +37,26 @@ export class Layout {
     private elementRef: ElementRef
   ) {
     this.usuarioLogado = this.authService.getUsuario();
+    this.initializeUserMenu();
   }
 
-  toggleDropdown() {
-    this.dropdownAberto = !this.dropdownAberto;
+  private initializeUserMenu() {
+    this.userMenuItems = [
+      {
+        label: 'Sair',
+        icon: 'pi pi-sign-out',
+        command: () => this.logout(),
+        styleClass: 'p-menuitem-danger'
+      }
+    ];
   }
 
-  fecharDropdown() {
-    this.dropdownAberto = false;
+  toggleUserMenu(event: Event) {
+    this.userMenu.toggle(event);
   }
 
   toggleContabilSubmenu() {
     this.contabilAberto = !this.contabilAberto;
-  }
-
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
-    const target = event.target as HTMLElement;
-    if (!this.elementRef.nativeElement.contains(target)) {
-      this.fecharDropdown();
-    }
   }
 
   logout() {

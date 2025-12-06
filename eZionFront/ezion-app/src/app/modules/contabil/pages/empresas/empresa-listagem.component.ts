@@ -1,84 +1,90 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EmpresaService, Empresa } from '../../services/empresa.service';
+import { EmpresaStateService } from '../../services/empresa-state.service';
+import { Empresa } from '../../services/empresa.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
+import { ButtonModule } from 'primeng/button';
+import { TooltipModule } from 'primeng/tooltip';
+import { CnpjMaskPipe } from '../../../../shared/pipes/cnpj-mask.pipe';
 
 @Component({
   selector: 'app-empresa-listagem',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ConfirmDialogComponent, ButtonModule, TooltipModule, CnpjMaskPipe],
   templateUrl: './empresa-listagem.html',
   styleUrl: './empresas.css'
 })
-export class EmpresaListagemComponent implements OnInit {
-  empresas: Empresa[] = [];
-  carregando = false;
-  filtroAtivas: string = 'todas';
+export class EmpresaListagemComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
+
+  // Estado reativo usando o serviço global - inicializado no ngOnInit
+  empresas: any;
+  empresasFiltradas: any;
+  carregando: any;
+  filtro: any;
+  temDados: any;
+  quantidadeEmpresas: any;
+  error: any;
+
+  // Estado do diálogo de confirmação
+  confirmDialogVisible = false;
+  confirmDialogTitle = '';
+  confirmDialogMessage = '';
+  confirmDialogLabel = '';
+  private confirmCallback: (() => void) | null = null;
 
   @Output() novaEmpresa = new EventEmitter<void>();
   @Output() editarEmpresa = new EventEmitter<Empresa>();
+  @Output() visualizarEmpresa = new EventEmitter<Empresa>();
 
-  constructor(private empresaService: EmpresaService) {
-    this.carregarEmpresasDoLocalStorage();
-  }
+  constructor(private empresaStateService: EmpresaStateService) {}
 
   ngOnInit() {
-    //this.carregarEmpresas();
+    // Inicializar signals após a injeção de dependência
+    this.empresas = this.empresaStateService.empresas;
+    this.empresasFiltradas = this.empresaStateService.empresasFiltradas;
+    this.carregando = this.empresaStateService.carregando;
+    this.filtro = this.empresaStateService.filtro;
+    this.temDados = this.empresaStateService.temDados;
+    this.quantidadeEmpresas = this.empresaStateService.quantidadeEmpresas;
+    this.error = this.empresaStateService.error;
   }
 
-  carregarEmpresas() {
-    this.carregando = true;
-    
-    const request = this.filtroAtivas === 'ativas' 
-      ? this.empresaService.listarAtivas()
-      : this.filtroAtivas === 'inativas'
-      ? this.empresaService.listarInativas()
-      : this.empresaService.listar();
-
-    request.subscribe({
-      next: (dados) => {
-        this.empresas = dados || [];
-        this.carregando = false;
-        this.salvarEmpresasNoLocalStorage();
-      },
-      error: (erro) => {
-        console.warn('API de empresas não disponível, usando dados locais:', erro);
-        this.carregarEmpresasDoLocalStorage();
-        this.carregando = false;
-      }
-    });
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
-  carregarEmpresasDoLocalStorage() {
-    const empresasLocal = localStorage.getItem('empresas');
-    if (empresasLocal) {
-      try {
-        const todas = JSON.parse(empresasLocal);
-        
-        if (this.filtroAtivas === 'ativas') {
-          this.empresas = todas.filter((e: Empresa) => e.ativa);
-        } else if (this.filtroAtivas === 'inativas') {
-          this.empresas = todas.filter((e: Empresa) => !e.ativa);
-        } else {
-          this.empresas = todas;
-        }
-      } catch (e) {
-        console.error('Erro ao carregar empresas do localStorage:', e);
-        this.empresas = [];
-      }
+  // Getters para compatibilidade com código existente
+  get ultimoCarregamento() {
+    return this.empresaStateService.ultimoCarregamento();
+  }
+
+  // Actions delegadas para o serviço de estado
+  async carregarEmpresas() {
+    await this.empresaStateService.carregarEmpresas(this.filtro());
+  }
+
+  alterarFiltro(filtro: 'todas' | 'ativas' | 'inativas') {
+    this.empresaStateService.setFiltro(filtro);
+  }
+
+  async recarregar() {
+    await this.empresaStateService.recarregar();
+  }
+
+  // Método de compatibilidade - agora usa o serviço de estado
+  inserirOuAtualizarEmpresa(empresa: Empresa) {
+    if (empresa.id) {
+      this.empresaStateService.atualizarEmpresa(empresa);
     } else {
-      this.empresas = [];
+      this.empresaStateService.adicionarEmpresa(empresa);
     }
   }
 
-  salvarEmpresasNoLocalStorage() {
-    localStorage.setItem('empresas', JSON.stringify(this.empresas));
-  }
-
-  alterarFiltro(filtro: string) {
-    this.filtroAtivas = filtro;
-    this.carregarEmpresas();
-  }
-
+  // Event handlers
   onNovaEmpresa() {
     this.novaEmpresa.emit();
   }
@@ -87,62 +93,34 @@ export class EmpresaListagemComponent implements OnInit {
     this.editarEmpresa.emit(empresa);
   }
 
-  ativarEmpresa(id: number) {
-    this.empresaService.ativar(id).subscribe({
-      next: () => {
-        const empresa = this.empresas.find(e => e.id === id);
-        if (empresa) {
-          empresa.ativa = true;
-          this.salvarEmpresasNoLocalStorage();
-          this.atualizarVisualizacaoFiltrada();
-        }
-      },
-      error: (erro) => console.error('Erro ao ativar:', erro)
-    });
+  onVisualizarEmpresa(empresa: Empresa) {
+    this.visualizarEmpresa.emit(empresa);
   }
 
-  desativarEmpresa(id: number) {
-    if (confirm('Tem certeza que deseja desativar esta empresa?')) {
-      this.empresaService.desativar(id).subscribe({
-        next: () => {
-          const empresa = this.empresas.find(e => e.id === id);
-          if (empresa) {
-            empresa.ativa = false;
-            this.salvarEmpresasNoLocalStorage();
-            this.atualizarVisualizacaoFiltrada();
-          }
-        },
-        error: (erro) => console.error('Erro ao desativar:', erro)
-      });
+  async deletarEmpresa(id: number) {
+    this.confirmDialogTitle = 'Confirmar Exclusão';
+    this.confirmDialogMessage = 'Tem certeza que deseja deletar esta empresa? Esta ação não pode ser desfeita.';
+    this.confirmDialogLabel = 'Excluir';
+    this.confirmCallback = async () => {
+      try {
+        await this.empresaStateService.excluirEmpresa(id);
+      } catch (error) {
+        console.error('Erro ao deletar empresa:', error);
+      }
+    };
+    this.confirmDialogVisible = true;
+  }
+
+  onConfirmDialogConfirmed() {
+    this.confirmDialogVisible = false;
+    if (this.confirmCallback) {
+      this.confirmCallback();
+      this.confirmCallback = null;
     }
   }
 
-  deletarEmpresa(id: number) {
-    if (confirm('Tem certeza que deseja deletar esta empresa?')) {
-      this.empresas = this.empresas.filter(e => e.id !== id);
-
-      this.empresaService.deletar(id).subscribe({
-        next: () => console.log('Empresa deletada na API'),
-        error: (erro) => console.warn('Erro ao deletar na API:', erro),
-        complete: () => this.salvarEmpresasNoLocalStorage()
-      });
-    }
-  }
-
-  private atualizarVisualizacaoFiltrada() {
-    // Re-aplica o filtro sem fazer chamada à API
-    const todas = [...this.empresas];
-    
-    if (this.filtroAtivas === 'ativas') {
-      this.empresas = todas.filter((e: Empresa) => e.ativa);
-    } else if (this.filtroAtivas === 'inativas') {
-      this.empresas = todas.filter((e: Empresa) => !e.ativa);
-    } else {
-      this.empresas = todas;
-    }
-  }
-
-  recarregar() {
-    this.carregarEmpresas();
+  onConfirmDialogCancelled() {
+    this.confirmDialogVisible = false;
+    this.confirmCallback = null;
   }
 }

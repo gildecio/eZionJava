@@ -1,5 +1,6 @@
 /* ========== IMPORTS ==========*/
 @import url('./styles/theme.css');
+@import 'primeicons/primeicons.css';
 
 /* Global Styles */
 body {
@@ -12,4 +13,13 @@ app-root {
   display: block;
   width: 100%;
   height: 100%;
+}
+
+/* PrimeNG ConfirmDialog Styles */
+::ng-deep .p-confirm-dialog {
+  z-index: 1000;
+}
+
+::ng-deep .p-mask {
+  z-index: 999;
 }

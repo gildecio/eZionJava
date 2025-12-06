@@ -90,26 +90,6 @@ public class EmpresaController {
         }
     }
 
-    @PostMapping("/{id}/desativar")
-    public ResponseEntity<?> desativarEmpresa(@PathVariable Long id) {
-        try {
-            empresaService.desativarEmpresa(id);
-            return ResponseEntity.ok().body("Empresa desativada com sucesso");
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @PostMapping("/{id}/ativar")
-    public ResponseEntity<?> ativarEmpresa(@PathVariable Long id) {
-        try {
-            empresaService.ativarEmpresa(id);
-            return ResponseEntity.ok().body("Empresa ativada com sucesso");
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEmpresa(@PathVariable Long id) {
         try {

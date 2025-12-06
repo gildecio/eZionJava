@@ -88,24 +88,6 @@ export class EmpresaService {
     );
   }
 
-  ativar(id: number): Observable<any | null> {
-    return this.http.post<any>(`${this.apiUrl}/${id}/ativar`, {}).pipe(
-      catchError((error) => {
-        console.error('Erro ao ativar empresa:', error);
-        return of(null);
-      })
-    );
-  }
-
-  desativar(id: number): Observable<any | null> {
-    return this.http.post<any>(`${this.apiUrl}/${id}/desativar`, {}).pipe(
-      catchError((error) => {
-        console.error('Erro ao desativar empresa:', error);
-        return of(null);
-      })
-    );
-  }
-
   listarAtivas(): Observable<Empresa[]> {
     return this.http.get<Empresa[]>(`${this.apiUrl}/ativas`).pipe(
       catchError((error) => {

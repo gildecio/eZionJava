@@ -120,13 +120,17 @@
   border-bottom: 2px solid var(--gray-200);
 }
 
+.empresas-table th:last-child {
+  text-align: center;
+}
+
 .empresas-table tbody tr {
   border-bottom: 1px solid var(--gray-200);
-  transition: background-color var(--transition-base);
 }
 
 .empresas-table tbody tr:hover {
   background-color: var(--gray-100);
+  transition: background-color 0.15s ease;
 }
 
 .empresas-table td {
@@ -416,10 +420,22 @@
   font-family: inherit;
 }
 
-.form-input:focus {
+.form-input:focus,
+select:focus {
   outline: none;
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+select {
+  padding: 0.75rem;
+  border: 1px solid var(--gray-300);
+  border-radius: 0.375rem;
+  font-size: 0.95rem;
+  transition: all var(--transition-base);
+  font-family: inherit;
+  background-color: var(--white);
+  cursor: pointer;
 }
 
 .form-row {
@@ -569,6 +585,29 @@
   box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
 }
 
+/* Personalização do ConfirmDialog */
+::ng-deep .p-confirm-dialog {
+  border-radius: 0.75rem;
+}
+
+::ng-deep .p-confirm-dialog .p-dialog-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+::ng-deep .p-confirm-dialog .p-dialog-title {
+  font-weight: 600;
+  color: var(--secondary);
+}
+
+::ng-deep .p-confirm-dialog .p-dialog-content {
+  padding: 1.5rem;
+}
+
+::ng-deep .p-button.p-button-danger:hover {
+  background-color: #c0392b;
+}
+
 @media (max-width: 768px) {
   .empresas-form {
     padding: 1.5rem;
@@ -581,4 +620,12 @@
   .form-actions button {
     width: 100%;
   }
+}
+
+/* Estilos para coluna de ações da tabela */
+.acoes {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+  justify-content: center;
 }

@@ -80,27 +80,10 @@ public class EmpresaService {
             empresa.setResponsavelCPF(empresaDetails.getResponsavelCPF());
             empresa.setResponsavelEmail(empresaDetails.getResponsavelEmail());
             empresa.setResponsavelTelefone(empresaDetails.getResponsavelTelefone());
+            empresa.setAtiva(empresaDetails.getAtiva());
             empresa.setDataAtualizacao(new Date());
             return empresaRepository.save(empresa);
         }).orElseThrow(() -> new RuntimeException("Empresa not found with id " + id));
-    }
-
-    @Transactional
-    public void desativarEmpresa(Long id) {
-        empresaRepository.findById(id).ifPresent(empresa -> {
-            empresa.setAtiva(false);
-            empresa.setDataAtualizacao(new Date());
-            empresaRepository.save(empresa);
-        });
-    }
-
-    @Transactional
-    public void ativarEmpresa(Long id) {
-        empresaRepository.findById(id).ifPresent(empresa -> {
-            empresa.setAtiva(true);
-            empresa.setDataAtualizacao(new Date());
-            empresaRepository.save(empresa);
-        });
     }
 
     public void deleteEmpresa(Long id) {
