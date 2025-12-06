@@ -19,5 +19,5 @@ export const routes: Routes = [
       { path: 'contabil/empresas', component: EmpresasComponent },
     ]
   },
-  { path: '**', redirectTo: '/login' }
+  { path: '**', redirectTo: '/index' }
 ];
