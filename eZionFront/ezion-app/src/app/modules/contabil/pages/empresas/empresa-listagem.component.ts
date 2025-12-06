@@ -11,7 +11,7 @@ import { EmpresaService, Empresa } from '../../services/empresa.service';
 })
 export class EmpresaListagemComponent implements OnInit {
   empresas: Empresa[] = [];
-  carregando = true;
+  carregando = false;
   filtroAtivas: string = 'todas';
 
   @Output() novaEmpresa = new EventEmitter<void>();
@@ -22,7 +22,7 @@ export class EmpresaListagemComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.carregarEmpresas();
+    //this.carregarEmpresas();
   }
 
   carregarEmpresas() {
