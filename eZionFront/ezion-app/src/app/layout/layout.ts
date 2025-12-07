@@ -29,6 +29,8 @@ export class Layout {
 
   usuarioLogado: string = '';
   contabilAberto = false;
+  estoqueAberto = false;
+  cadastrosAberto = false;
   userMenuItems: MenuItem[] = [];
 
   constructor(
@@ -57,6 +59,14 @@ export class Layout {
 
   toggleContabilSubmenu() {
     this.contabilAberto = !this.contabilAberto;
+  }
+
+  toggleEstoqueSubmenu() {
+    this.estoqueAberto = !this.estoqueAberto;
+  }
+
+  toggleCadastrosSubmenu() {
+    this.cadastrosAberto = !this.cadastrosAberto;
   }
 
   logout() {
