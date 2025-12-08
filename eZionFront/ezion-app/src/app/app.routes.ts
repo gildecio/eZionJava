@@ -5,7 +5,7 @@ import { Index } from './pages/index/index';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { EmpresasComponent } from './modules/contabil/pages/empresas/empresas';
 import { UnidadesComponent } from './modules/cadastros/pages/unidades/unidades';
-import { LocaisComponent } from './modules/cadastros/pages/locais/locais';
+import { LocaisComponent } from './modules/estoque/pages/locais/locais';
 import { AuthGuard } from './guards/auth.guard';
 
 // Placeholder components for estoque module (to be implemented)
