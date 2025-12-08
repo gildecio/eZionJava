@@ -13,13 +13,11 @@ const EstoqueItens = () => import('./pages/index/index').then(m => m.Index);
 const EstoqueMovimentacoes = () => import('./pages/index/index').then(m => m.Index);
 const EstoqueCustos = () => import('./pages/index/index').then(m => m.Index);
 const EstoqueLotes = () => import('./pages/index/index').then(m => m.Index);
-const EstoqueLocais = () => import('./pages/index/index').then(m => m.Index);
 
 // Placeholder components for cadastros module (to be implemented)
 const CadastrosGrupos = () => import('./pages/index/index').then(m => m.Index);
 const CadastrosCidades = () => import('./pages/index/index').then(m => m.Index);
 const CadastrosBairros = () => import('./pages/index/index').then(m => m.Index);
-const CadastrosLocais = () => import('./pages/index/index').then(m => m.Index);
 const CadastrosFornecedores = () => import('./pages/index/index').then(m => m.Index);
 
 export const routes: Routes = [
@@ -37,12 +35,11 @@ export const routes: Routes = [
       { path: 'estoque/movimentacoes', loadComponent: EstoqueMovimentacoes },
       { path: 'estoque/custos', loadComponent: EstoqueCustos },
       { path: 'estoque/lotes', loadComponent: EstoqueLotes },
-      { path: 'estoque/locais', loadComponent: EstoqueLocais },
+      { path: 'estoque/locais', component: LocaisComponent },
       { path: 'cadastros/grupos', loadComponent: CadastrosGrupos },
       { path: 'cadastros/unidades', component: UnidadesComponent },
       { path: 'cadastros/cidades', loadComponent: CadastrosCidades },
       { path: 'cadastros/bairros', loadComponent: CadastrosBairros },
-      { path: 'cadastros/locais', component: LocaisComponent },
       { path: 'cadastros/fornecedores', loadComponent: CadastrosFornecedores },
     ]
   },
