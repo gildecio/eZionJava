@@ -5,6 +5,7 @@ import { Index } from './pages/index/index';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { EmpresasComponent } from './modules/contabil/pages/empresas/empresas';
 import { UnidadesComponent } from './modules/cadastros/pages/unidades/unidades';
+import { LocaisComponent } from './modules/cadastros/pages/locais/locais';
 import { AuthGuard } from './guards/auth.guard';
 
 // Placeholder components for estoque module (to be implemented)
@@ -41,7 +42,7 @@ export const routes: Routes = [
       { path: 'cadastros/unidades', component: UnidadesComponent },
       { path: 'cadastros/cidades', loadComponent: CadastrosCidades },
       { path: 'cadastros/bairros', loadComponent: CadastrosBairros },
-      { path: 'cadastros/locais', loadComponent: CadastrosLocais },
+      { path: 'cadastros/locais', component: LocaisComponent },
       { path: 'cadastros/fornecedores', loadComponent: CadastrosFornecedores },
     ]
   },
