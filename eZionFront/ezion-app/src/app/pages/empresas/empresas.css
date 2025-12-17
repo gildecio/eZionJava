@@ -1,0 +1,66 @@
+.empresas-shell {
+	display: flex;
+	flex-direction: column;
+	gap: 1.25rem;
+}
+
+.header-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+.header-row h2 {
+	margin: 0.2rem 0;
+}
+
+.header-row p {
+	margin: 0;
+	color: var(--text-300);
+}
+
+.button-group {
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+}
+
+.divider {
+	border: none;
+	border-top: 1px solid var(--border);
+	margin: 0;
+}
+
+.feedback {
+	padding: 0.85rem 1rem;
+	border-radius: 10px;
+	border: 1px solid var(--border);
+	background: rgba(255, 255, 255, 0.05);
+}
+
+.feedback.success {
+	border-color: rgba(76, 209, 55, 0.4);
+	background: rgba(76, 209, 55, 0.12);
+}
+
+.feedback.error {
+	border-color: rgba(255, 107, 107, 0.4);
+	background: rgba(255, 107, 107, 0.12);
+}
+
+@media (max-width: 720px) {
+	.header-row {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.button-group {
+		width: 100%;
+		flex-direction: column;
+	}
+
+	.button-group button {
+		width: 100%;
+	}
+}

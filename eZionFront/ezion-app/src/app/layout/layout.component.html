@@ -1,0 +1,81 @@
+<div class="layout-container">
+  <!-- Header - só mostrar se não for página de login -->
+  <header class="header" *ngIf="!isLoginPage">
+    <div class="header-content glass-blur">
+      <div class="brand">
+        <div class="logo-mark">EZ</div>
+        <div class="brand-copy">
+          <span class="eyebrow">Plataforma</span>
+          <h1>eZion</h1>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <ul class="menu-list">
+          <li *ngFor="let item of menuItems" class="menu-item" [class.has-submenu]="item.submenu">
+            
+            <!-- Item sem submenu -->
+            <a *ngIf="!item.submenu" [routerLink]="item.route" routerLinkActive="active" class="menu-link">
+              <span class="menu-icon">{{ item.icon }}</span>
+              <span>{{ item.label }}</span>
+            </a>
+
+            <!-- Item com submenu -->
+            <div *ngIf="item.submenu" class="dropdown-wrapper">
+              <button 
+                class="menu-link dropdown-trigger" 
+                [class.active]="openSubmenu === item.label"
+                (click)="toggleSubmenu(item.label)"
+                type="button">
+                <span class="menu-icon">{{ item.icon }}</span>
+                <span>{{ item.label }}</span>
+                <span class="dropdown-arrow" [class.open]="openSubmenu === item.label">▼</span>
+              </button>
+
+              <div class="dropdown-menu" *ngIf="openSubmenu === item.label">
+                <a 
+                  *ngFor="let subitem of item.submenu" 
+                  [routerLink]="subitem.route" 
+                  routerLinkActive="active"
+                  class="dropdown-item"
+                  (click)="closeSubmenu()">
+                  <span class="menu-icon">{{ subitem.icon }}</span>
+                  <span>{{ subitem.label }}</span>
+                </a>
+              </div>
+            </div>
+
+          </li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <span class="pill chip-contrast">
+          <span class="dot"></span>
+          Online
+        </span>
+        <button class="logout-button" (click)="logout()" title="Sair">
+          <span class="menu-icon">⇦</span>
+          <span>Sair</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content" [class.login-page]="isLoginPage">
+    <ng-container *ngIf="isLoginPage; else appShell">
+      <router-outlet></router-outlet>
+    </ng-container>
+
+    <ng-template #appShell>
+      <div class="content-panel surface">
+        <div class="content-glow"></div>
+        <router-outlet></router-outlet>
+      </div>
+    </ng-template>
+  </main>
+
+  <!-- Modal Global de Confirmação de Exclusão -->
+  <app-confirm-delete-modal></app-confirm-delete-modal>
+</div>

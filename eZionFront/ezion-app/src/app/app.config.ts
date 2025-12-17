@@ -1,10 +1,7 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient, withInterceptorsFromDi, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { provideAnimations } from '@angular/platform-browser/animations';
-import { providePrimeNG } from 'primeng/config';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { provideHttpClient, withInterceptors, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 import { routes } from './app.routes';
 
@@ -12,14 +9,10 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
-    provideHttpClient(withInterceptorsFromDi()),
-    provideAnimations(),
-    providePrimeNG(),
-    ConfirmationService,
-    MessageService,
+    provideHttpClient(),
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: JwtInterceptor,
+      useClass: AuthInterceptor,
       multi: true
     }
   ]

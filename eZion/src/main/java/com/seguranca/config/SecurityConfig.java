@@ -86,7 +86,11 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.DELETE, "/api/permissoes/**").hasAnyAuthority("PERMISSAO_DELETE")
                 
                 // Outro módulos - requer autenticação
-                .requestMatchers("/api/empresas/**").authenticated()
+                .requestMatchers(HttpMethod.GET, "/api/empresas/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/empresas/**").authenticated()
+                .requestMatchers(HttpMethod.PUT, "/api/empresas/**").authenticated()
+                .requestMatchers(HttpMethod.DELETE, "/api/empresas/**").authenticated()
+                .requestMatchers("/api/locais/**").authenticated()
                 
                 // Qualquer outra requisição requer autenticação
                 .anyRequest().authenticated()
@@ -101,7 +105,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost:4200", "http://localhost:8080"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost:4200", "http://localhost:8080", "http://localhost:46837"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);

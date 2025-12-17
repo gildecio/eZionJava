@@ -1,25 +1,169 @@
-/* ========== IMPORTS ==========*/
-@import url('./styles/theme.css');
-@import 'primeicons/primeicons.css';
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
 
-/* Global Styles */
+:root {
+	--bg-900: #f0f7ff;
+	--bg-800: #e3f2fd;
+	--bg-700: #d1e9ff;
+	--text-100: #1a2332;
+	--text-200: #3d4f66;
+	--text-300: #5e6e82;
+	--brand-500: #2196f3;
+	--brand-600: #1976d2;
+	--accent-500: #64b5f6;
+	--danger-500: #f44336;
+	--muted: rgba(33, 150, 243, 0.08);
+	--card: rgba(255, 255, 255, 0.95);
+	--border: rgba(33, 150, 243, 0.15);
+	--shadow: 0 4px 20px rgba(33, 150, 243, 0.15);
+	--radius: 18px;
+}
+
+* {
+	box-sizing: border-box;
+}
+
 body {
-  margin: 0;
-  padding: 0;
-  font-family: var(--font-family-base);
+	margin: 0;
+	min-height: 100vh;
+	font-family: 'Inter', 'Space Grotesk', system-ui, -apple-system, sans-serif;
+	background: radial-gradient(circle at 15% 20%, rgba(33, 150, 243, 0.12) 0, transparent 25%),
+		radial-gradient(circle at 85% 10%, rgba(100, 181, 246, 0.15) 0, transparent 28%),
+		radial-gradient(circle at 20% 80%, rgba(25, 118, 210, 0.08) 0, transparent 22%),
+		linear-gradient(145deg, #ffffff 0%, var(--bg-800) 50%, var(--bg-900) 100%);
+	color: var(--text-100);
+	-webkit-font-smoothing: antialiased;
+	position: relative;
 }
 
-app-root {
-  display: block;
-  width: 100%;
-  height: 100%;
+body::after {
+	content: '';
+	position: fixed;
+	inset: 0;
+	background: radial-gradient(circle at 30% 30%, rgba(33, 150, 243, 0.08), transparent 35%),
+		radial-gradient(circle at 70% 70%, rgba(100, 181, 246, 0.12), transparent 32%);
+	pointer-events: none;
+	mix-blend-mode: normal;
+	opacity: 0.5;
 }
 
-/* PrimeNG ConfirmDialog Styles */
-::ng-deep .p-confirm-dialog {
-  z-index: 1000;
+a {
+	color: var(--brand-500);
+	text-decoration: none;
+	transition: color 0.2s ease, opacity 0.2s ease;
 }
 
-::ng-deep .p-mask {
-  z-index: 999;
+a:hover {
+	color: var(--accent-500);
+}
+
+p {
+	color: var(--text-200);
+	line-height: 1.6;
+}
+
+button,
+input,
+select,
+textarea {
+	font-family: inherit;
+}
+
+.surface {
+	background: var(--card);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	box-shadow: var(--shadow);
+	backdrop-filter: blur(12px);
+}
+
+.pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	padding: 0.45rem 0.85rem;
+	border-radius: 999px;
+	background: var(--muted);
+	color: var(--text-200);
+	border: 1px solid var(--border);
+	letter-spacing: 0.02em;
+}
+
+.chip-contrast {
+	background: rgba(76, 175, 80, 0.15);
+	color: #2e7d32;
+	border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.btn-primary {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	padding: 0.85rem 1.25rem;
+	border-radius: 14px;
+	background: linear-gradient(135deg, var(--brand-500), var(--accent-500));
+	border: none;
+	color: #ffffff;
+	font-weight: 600;
+	letter-spacing: 0.01em;
+	cursor: pointer;
+	box-shadow: 0 4px 15px rgba(33, 150, 243, 0.25);
+	transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.btn-primary:hover {
+	transform: translateY(-2px) scale(1.01);
+	filter: brightness(0.95);
+	box-shadow: 0 6px 20px rgba(33, 150, 243, 0.35);
+}
+
+.btn-green {
+	background: linear-gradient(135deg, #4caf50, #388e3c);
+	box-shadow: 0 4px 15px rgba(76, 175, 80, 0.25);
+}
+
+.btn-green:hover {
+	box-shadow: 0 6px 20px rgba(76, 175, 80, 0.35);
+}
+
+.glass-blur {
+	backdrop-filter: blur(10px);
+	background: rgba(255, 255, 255, 0.85);
+	border: 1px solid var(--border);
+	box-shadow: var(--shadow);
+}
+
+.grid-auto-fit {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+	gap: 1rem;
+}
+
+.text-gradient {
+	background: linear-gradient(120deg, var(--brand-500), var(--accent-500));
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+::selection {
+	background: rgba(33, 150, 243, 0.3);
+	color: var(--text-100);
+}
+
+::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+
+::-webkit-scrollbar-track {
+	background: rgba(33, 150, 243, 0.08);
+}
+
+::-webkit-scrollbar-thumb {
+	background: linear-gradient(180deg, var(--brand-500), var(--accent-500));
+	border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: linear-gradient(180deg, var(--accent-500), var(--brand-500));
 }

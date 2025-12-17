@@ -1,5 +1,7 @@
 package com.seguranca.controller;
 
+import com.contabil.model.Empresa;
+import com.contabil.service.EmpresaService;
 import com.seguranca.dto.*;
 import com.seguranca.model.Usuario;
 import com.seguranca.security.JwtProvider;
@@ -34,6 +36,7 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
     private final UsuarioService usuarioService;
+    private final EmpresaService empresaService;
 
     @Operation(
         summary = "Realizar login", 
@@ -62,6 +65,9 @@ public class AuthController {
 
             usuarioService.registrarUltimoAcesso(loginRequest.getUsername());
 
+            Empresa empresa = empresaService.getEmpresaById(loginRequest.getEmpresaId())
+                .orElseThrow(() -> new RuntimeException("Empresa não encontrada"));
+
             List<String> roles = usuario.getRoles().stream()
                 .map(r -> r.getNome())
                 .collect(Collectors.toList());
@@ -72,6 +78,13 @@ public class AuthController {
                 .distinct()
                 .collect(Collectors.toList());
 
+            EmpresaDto empresaDto = new EmpresaDto(
+                empresa.getId(),
+                empresa.getNomeFantasia(),
+                empresa.getRazaoSocial(),
+                empresa.getCnpj()
+            );
+
             JwtResponse response = JwtResponse.builder()
                 .token(jwt)
                 .refreshToken(refreshToken)
@@ -81,6 +94,7 @@ public class AuthController {
                 .nomeCompleto(usuario.getNomeCompleto())
                 .roles(roles)
                 .permissoes(permissoes)
+                .empresa(empresaDto)
                 .build();
 
             return ResponseEntity.ok(response);
@@ -90,6 +104,11 @@ public class AuthController {
             return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
                 .body(new ErrorResponse("Usuário ou senha inválidos"));
+        } catch (RuntimeException e) {
+            log.error("Erro durante login: {}", e.getMessage());
+            return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(e.getMessage()));
         } catch (Exception e) {
             log.error("Erro durante login: ", e);
             return ResponseEntity

@@ -11,6 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginRequest {
+    @Schema(description = "ID da empresa", example = "1")
+    @JsonProperty("empresa_id")
+    private Long empresaId;
+    
     @Schema(description = "Nome de usuário", example = "admin")
     @JsonProperty("usuario")
     @JsonAlias("username")
